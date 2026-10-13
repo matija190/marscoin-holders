@@ -87,6 +87,7 @@ tbody tr:hover{background:rgba(226,85,43,.06)}
 .chip.on{color:#fff;border-color:var(--red);background:rgba(226,85,43,.18)}
 select{background:#120b09;border:1px solid var(--line);color:var(--text);border-radius:10px;padding:8px 10px;font-size:13px}
 .addr{font-family:var(--mono);font-size:13px;color:var(--sand)}
+a.addr,a.txl{color:var(--sand);text-decoration:underline dotted;text-underline-offset:3px}a.addr:hover,a.txl:hover{color:#ffb347}
 .copy{background:none;border:0;color:var(--dim);cursor:pointer;padding:0 0 0 6px;font-size:13px;vertical-align:-2px} .copy:hover{color:var(--orange)}
 .lbl{display:inline-block;font-size:12px;padding:2px 9px;border-radius:99px;background:rgba(242,180,126,.1);border:1px solid rgba(242,180,126,.3);color:var(--sand);cursor:help}
 .lbl.org{background:rgba(127,209,168,.08);border-color:rgba(127,209,168,.35);color:var(--ok)}
@@ -432,10 +433,10 @@ function render(){
     const badge = y >= 5 ? '<span class="age d">dormant</span>' : y < 1 ? '<span class="age a">active</span>' : '';
     const lab = x ? `<span class="lbl${lblCls(x[2])}" title="${esc(x[1])}">${esc(x[0])}</span>` : '';
     return `<tr><td class="rk">${fmt(i + 1)}</td>
-      <td class="ad"><span class="addr">${esc(HD.a[i])}</span><button class="copy" title="Copy address" data-a="${esc(HD.a[i])}">${ICON}</button></td>
+      <td class="ad"><a class="addr" href="https://explore.marscoin.org/address/${esc(HD.a[i])}" target="_blank" rel="noopener" title="View all transactions">${esc(HD.a[i])}</a><button class="copy" title="Copy address" data-a="${esc(HD.a[i])}">${ICON}</button></td>
       <td class="r bl">${fmt(HD.b[i] / 1e8, 2)}</td>
       <td class="r pc">${p >= 0.001 ? p.toFixed(3) : p.toFixed(5)}%<span class="mini"><i style="width:${Math.max(0.5, HD.b[i] / maxB * 100)}%"></i></span></td>
-      <td class="la">${isoTime(i)} <span style="color:var(--dim)">(${rel(HD.l[i])})</span>${badge}</td><td class="lb">${lab}</td></tr>`;
+      <td class="la"><a class="txl" href="https://explore.marscoin.org/address/${esc(HD.a[i])}" target="_blank" rel="noopener" title="View transactions">${isoTime(i)}</a> <span style="color:var(--dim)">(${rel(HD.l[i])})</span>${badge}</td><td class="lb">${lab}</td></tr>`;
   }).join('') : `<tr><td colspan="6" class="empty">No address holding ${minTxt()} or more matches “${esc(state.q)}”.</td></tr>`;
   $('#pinfo').textContent = n ? `Showing ${fmt(s + 1)}–${fmt(Math.min(s + state.ps, n))} of ${fmt(n)} ${idx ? 'matching ' : ''}addresses` : '0 results';
   let b = `<button ${state.page == 1 ? 'disabled' : ''} data-p="${state.page - 1}" aria-label="Previous page">‹ Prev</button>`;
