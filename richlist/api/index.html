@@ -527,8 +527,9 @@ async function loadHolders(height){
   if (HDloading) return HDloading;
   HDloading = (async () => {
     try {
-      const r = await fetch(STATIC ? ROOT + 'holders.json' : url('data/holders.json'), {cache:'no-cache'});
-      if (!r.ok) throw new Error(r.status);
+      let r;
+      try { r = await fetch(STATIC ? ROOT + 'holders.json' : url('data/holders.json'), {cache:'no-cache'}); if (!r.ok) throw new Error(r.status); }
+      catch (e0) { if (STATIC) throw e0; r = await fetch(ROOT + 'holders.json', {cache:'no-cache'}); if (!r.ok) throw new Error(r.status); }
       HD = await r.json(); _fk = '';
       document.querySelectorAll('.hCount').forEach(e => e.textContent = fmt(HD.count));
       render();
@@ -611,8 +612,9 @@ async function loadStatus(){
 async function load(){
   let nd;
   try {
-    const r = await fetch(STATIC ? ROOT + 'data.json' : url('data/data.json'), {cache:'no-cache'});
-    if (!r.ok) throw new Error(r.status);
+    let r;
+    try { r = await fetch(STATIC ? ROOT + 'data.json' : url('data/data.json'), {cache:'no-cache'}); if (!r.ok) throw new Error(r.status); }
+    catch (e0) { if (STATIC) throw e0; r = await fetch(ROOT + 'data.json', {cache:'no-cache'}); if (!r.ok) throw new Error(r.status); console.warn('live API unavailable, using static snapshot'); }
     const hd = r.headers.get('Date'); if (hd) skew = Date.parse(hd) - Date.now();
     nd = await r.json();
     lastFetchOk = Date.now();

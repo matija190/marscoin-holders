@@ -79,16 +79,17 @@ footer.sitefoot{position:relative;z-index:2;margin-top:40px;border-top:1px solid
 <p>To show live balances, transactions and the MARS price, your browser fetches data directly from these third-party services:</p>
 <ul>
 <li><strong>explore.marscoin.org</strong> (Marscoin block explorer): wallet balance and transaction data.</li>
-<li><strong>api.coingecko.com</strong> (CoinGecko): the current MARS price.</li>
+<li><strong>api.coingecko.com</strong> (CoinGecko): the current MARS price on the wallet page, and on the holders pages only if our own server is unavailable.</li>
 </ul>
 <p>When this happens, these providers can see your IP address and the usual technical request data, as with any website visit. We have no control over how they process this data; please refer to their privacy policies, for example the <a href="https://www.coingecko.com/en/privacy" target="_blank" rel="noopener noreferrer">CoinGecko privacy policy</a>. Legal basis: Art. 6(1)(f) GDPR (legitimate interest in showing up-to-date information).</p>
+<p>The Marscoin Holders pages (/richlist/) also load holder, supply and price data from our own server <strong>api.matomarswallet.com</strong>, hosted by netcup GmbH in Germany. Its web server logs your IP address and the usual technical request data. Legal basis: Art. 6(1)(f) GDPR (legitimate interest in showing up-to-date information and operating the server securely).</p>
 <p>Links to addresses and transactions on the Marscoin explorer simply open that external website.</p>
 
 <h2>5. LBank link</h2>
 <p>The "Trade Marscoin" button links to LBank, a third-party crypto exchange. No data is sent to LBank until you click the link. After that, LBank's own privacy policy applies.</p>
 
 <h2>6. Local storage in your browser</h2>
-<p>The Marscoin Holders pages (/richlist/) store the last fetched MARS price in your browser's localStorage, only as a short-term cache so the price does not have to be fetched on every page load. It contains no personal data, is never sent to us, and you can delete it at any time by clearing your browser's site data.</p>
+<p>The Marscoin Holders pages (/richlist/) may store the last fetched MARS price in your browser's localStorage, only as a short-term cache so the price does not have to be fetched on every page load. It contains no personal data, is never sent to us, and you can delete it at any time by clearing your browser's site data.</p>
 
 <h2>7. Public blockchain data</h2>
 <p>The holders list shows public Marscoin addresses and balances taken from the public Marscoin blockchain. It does not link addresses to real people.</p>
