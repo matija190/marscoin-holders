@@ -10,7 +10,7 @@
 *{box-sizing:border-box}
 body{margin:0;min-height:100vh;overflow:auto;color:white;background:#050202;font-family:Arial,Helvetica,sans-serif}
 .background{position:fixed;inset:0;background-size:cover;background-position:center;opacity:0;transform:scale(1.04);transition:opacity 1.8s ease,transform 8s ease;z-index:0}
-.background.active{opacity:1;transform:scale(1)}
+.background.active{opacity:1;transform:none;background-image:url(/img/bg-mars.webp);background-size:cover;background-position:center 45%;background-repeat:no-repeat}
 .shade{position:fixed;inset:0;z-index:1;background:linear-gradient(90deg,rgba(0,0,0,.66),rgba(0,0,0,.22),rgba(0,0,0,.70)),linear-gradient(180deg,rgba(0,0,0,.22),rgba(0,0,0,.72));pointer-events:none}
 .page{position:relative;z-index:2;min-height:100vh;display:grid;grid-template-columns:1fr minmax(330px,540px);align-items:center;gap:48px;padding:48px clamp(24px,6vw,90px)}
 .hero{text-shadow:0 10px 32px rgba(0,0,0,.95)}
@@ -49,8 +49,6 @@ h1{margin:22px 0 14px;font-size:clamp(44px,7vw,92px);line-height:.95;letter-spac
 .qr-panel{display:flex;align-items:center;justify-content:center;gap:18px;padding:16px;border-radius:22px;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.12)}
 .qr{width:145px;height:145px;padding:9px;border-radius:16px;background:white;box-shadow:0 14px 34px rgba(0,0,0,.42);flex:0 0 auto}
 .qr-info{text-align:left}.qr-info strong{display:block;margin-bottom:6px;font-size:18px}.qr-info span{display:block;color:var(--soft);font-size:14px;line-height:1.45}
-.slide-dots{position:fixed;z-index:3;left:50%;bottom:24px;transform:translateX(-50%);display:flex;gap:9px;padding:10px 13px;border-radius:999px;background:rgba(0,0,0,.28);backdrop-filter:blur(12px);border:1px solid rgba(255,255,255,.14)}
-.dot{width:8px;height:8px;border-radius:99px;background:rgba(255,255,255,.38);transition:width .25s,background .25s}.dot.active{width:26px;background:var(--gold)}
 @media(max-width:920px){body{overflow:auto}.page{min-height:100svh;grid-template-columns:1fr;gap:84px;padding:54px 20px 80px}.hero{text-align:center;margin:0 auto}.hero p{margin:0 auto}.wallet-card{max-width:540px;margin:0 auto}}
 @media(max-width:520px){.wallet-card{padding:24px 18px;border-radius:28px}.logo-wrap{width:132px;height:132px;margin-top:-72px}.logo{width:118px;height:118px}.qr-panel{flex-direction:column}.qr-info{text-align:center}.address-box{font-size:14px}.balance{font-size:23px}.value-grid{grid-template-columns:1fr}.value-card.total{grid-column:auto}.value-card.total .mini-value{font-size:26px}}
 
@@ -85,7 +83,7 @@ body{
 </style>
 </head>
 <body>
-<div class="background active" id="slide0"></div><div class="background" id="slide1"></div><div class="background" id="slide2"></div><div class="background" id="slide3"></div><div class="background" id="slide4"></div><div class="shade"></div>
+<div class="background active"></div><div class="shade"></div>
 <main class="page">
 <section class="hero">
 <div class="badge"><span class="badge-dot"></span>Live Marscoin Wallet</div>
@@ -154,17 +152,11 @@ body{
 </section>
 </main>
 <footer class="site-footer">Not financial advice. Crypto is risky. · <a href="/privacy/">Privacy</a></footer>
-<div class="slide-dots"><span class="dot active"></span><span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="dot"></span></div>
 <script>
 const ADDRESS="MS2FfY5eUhKZkJ5jWvG9CeyqEUJRaHPcgf";
 const API_BASE="https://explore.marscoin.org/api";
 const PRICE_API="https://api.coingecko.com/api/v3/simple/price?ids=marscoin&vs_currencies=usd";
-const backgrounds=["/img/bg-1.webp","/img/bg-2.webp","/img/bg-3.webp","/img/bg-4.webp","/img/bg-5.webp"];
-const slides=document.querySelectorAll(".background");const dots=document.querySelectorAll(".dot");let currentSlide=0;
 let currentBalance=null;let currentPrice=null;
-slides.forEach((s,i)=>{s.style.backgroundImage=`url(${backgrounds[i]})`});
-function showSlide(n){slides[currentSlide].classList.remove("active");dots[currentSlide].classList.remove("active");currentSlide=n;slides[currentSlide].classList.add("active");dots[currentSlide].classList.add("active")}
-setInterval(()=>showSlide((currentSlide+1)%slides.length),4000);
 function formatMars(v){const n=Number(v);if(Number.isNaN(n))return v;return n.toLocaleString(undefined,{maximumFractionDigits:8})+" MARS"}
 function formatUSD(v){const n=Number(v);if(Number.isNaN(n))return "Unavailable";return "$"+n.toLocaleString(undefined,{minimumFractionDigits:2,maximumFractionDigits:6})}
 function updateTotal(){if(currentBalance===null||currentPrice===null){document.getElementById("totalValue").innerText="Loading...";return;}document.getElementById("totalValue").innerText=formatUSD(currentBalance*currentPrice);}
