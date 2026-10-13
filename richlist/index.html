@@ -222,8 +222,10 @@ select option{background:#120b09;color:#f3e6df}
 
 .hero-img img{display:block;width:100%;max-width:820px;height:auto;margin:0 auto}
 
-@media (max-width:640px){nav a:not(.home){padding:6px 12px}nav{gap:6px 6px}}
+@media (max-width:640px){nav a:not(.home){padding:6px 9px}nav{gap:6px 6px}}
 @media (max-width:360px){nav a:not(.home){padding:5px 9px;font-size:12.5px}}
+
+.brand-logo{width:34px;height:34px;border-radius:50%;flex:none;display:block;box-shadow:0 0 14px rgba(255,138,34,.45)}
 </style>
 <script>window.MARSRICH_ROOT='';(function(l){if(!/\/$|\.html$/.test(l.pathname))return l.replace(l.pathname+'/'+l.search+l.hash);var m={'#richlist':'holders/','#distribution':'distribution/','#api':'api/'};if(m[l.hash])l.replace(m[l.hash]);})(location);</script>
 </head>
@@ -231,8 +233,8 @@ select option{background:#120b09;color:#f3e6df}
 <header class="hero">
   <div class="wrap">
     <div class="topbar">
-      <a class="brand" href="./"><div>Marscoin Holders<small>MARS supply &amp; distribution</small></div></a>
-      <nav><a href="./" class="on" aria-current="page">Supply</a><a href="distribution/">Distribution</a><a href="holders/">Holders</a><a href="api/">Data</a></nav>
+      <a class="brand" href="/"><img class="brand-logo" src="/img/logo.webp" width="34" height="34" alt=""><div>MATO✦MΛRS<small>Marscoin wallet &amp; holders</small></div></a>
+      <nav aria-label="Main"><a href="/">Wallet</a><a href="/richlist/" class="on" aria-current="page">Supply</a><a href="/richlist/distribution/">Distribution</a><a href="/richlist/holders/">Holders</a><a href="/richlist/api/">Data</a></nav>
     </div>
     <figure class="hero-img"><img src="img/mars-hero.webp" alt="Marscoin logo above the planet Mars: The Future Begins on Mars" width="1400" height="933" fetchpriority="high"></figure>
     <div class="headline">
@@ -271,9 +273,8 @@ select option{background:#120b09;color:#f3e6df}
 
 <footer>
   <div class="wrap foot">
-    <div>Data: our own Marscoin full node · block <span class="ftH">…</span> · <span class="ftMode">…</span> · Not financial advice.</div>
-    <div><a href="api/">Data sources, methodology &amp; API</a></div>
-    <div><a href="/privacy/">Privacy</a></div>
+    <div>Data: our own Marscoin full node · block <span class="ftH">…</span> · <span class="ftMode">…</span> · Not financial advice. Crypto is risky.</div>
+    <div><a href="/richlist/api/">Data &amp; methodology</a> · <a href="/privacy/">Privacy</a></div>
   </div>
 </footer>
 

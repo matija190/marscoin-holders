@@ -56,7 +56,6 @@ h1{margin:22px 0 14px;font-size:clamp(44px,7vw,92px);line-height:.95;letter-spac
 .lbank-text{margin-top:4px;color:rgba(255,255,255,.72);font-size:13px;line-height:1.4}
 .lbank-button{display:block;width:100%;margin-top:14px;border-radius:18px;padding:15px 16px;text-align:center;text-decoration:none;color:#1b0b00;background:linear-gradient(135deg,#ffd15f,#ff8a22);font-weight:900;letter-spacing:1.4px;text-transform:uppercase}
 .partner-note{margin-top:10px;text-align:center;font-size:13px;line-height:1.4;color:rgba(255,255,255,.85)}
-.site-footer{position:relative;z-index:2;text-align:center;padding:0 20px 70px;color:rgba(255,255,255,.75);font-size:13px;text-shadow:0 2px 8px rgba(0,0,0,.9)}.site-footer a{color:#ffd15f}
 .label{margin:0 0 8px;color:rgba(255,255,255,.68);text-align:left;font-size:12px;letter-spacing:2px;font-weight:900;text-transform:uppercase}
 .address-box{padding:16px;border:1px solid rgba(255,255,255,.28);border-radius:18px;background:rgba(0,0,0,.32);color:#fff;font-size:16px;line-height:1.45;word-break:break-all;text-align:left}
 .copy-button{width:100%;margin:16px 0 22px;border:0;border-radius:18px;padding:16px 22px;cursor:pointer;color:#1b0b00;background:linear-gradient(135deg,#ffd15f,#ff8a22);font-size:15px;font-weight:900;letter-spacing:1.6px;text-transform:uppercase;box-shadow:0 14px 30px rgba(255,122,26,.30)}
@@ -94,16 +93,66 @@ body{
   }
 }
 
+/* shared site chrome (same as richlist pages) */
+:root{--bg:#050202;--bg2:#0c0605;--card:#1b1210;--card2:#221714;--line:#3a2520;--text:#f3e6df;--muted:#b39a8f;--dim:#7d655b;--rust:#d0560f;--red:#ff6a1a;--orange:#ff8a22;--sand:#ffd15f;--gold:#ffd15f;--ok:#7fd1a8}
+.wrap{max-width:1200px;margin:0 auto;padding:0 24px}
+.sitehead{position:relative;z-index:3;border-bottom:1px solid var(--line);background:rgba(12,6,5,.82);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px)}
+.topbar{display:flex;align-items:center;justify-content:space-between;gap:16px;padding:18px 0}
+a.brand{display:flex;align-items:center;gap:12px;font-weight:700;letter-spacing:.2px;color:var(--text);text-decoration:none}
+.brand small{display:block;font-weight:500;color:var(--muted);font-size:12px;letter-spacing:.3px}
+nav{display:flex;align-items:center;flex-wrap:wrap;gap:4px 20px}
+nav a{color:var(--muted);font-size:14px;padding:5px 0;border-bottom:2px solid transparent;text-decoration:none}
+nav a:hover{color:var(--text);text-decoration:none}
+nav a.on{color:var(--text);border-bottom-color:var(--orange)}
+footer.sitefoot{position:relative;z-index:2;margin-top:40px;border-top:1px solid var(--line);background:var(--bg2);padding:28px 0 calc(36px + env(safe-area-inset-bottom));color:var(--muted);font-size:13.5px;line-height:1.5}
+.foot{display:flex;justify-content:space-between;gap:10px 24px;flex-wrap:wrap}
+.foot a{color:var(--orange);text-decoration:none}
+@media (max-width:640px){
+  .wrap{padding:0 16px}
+  .topbar{flex-direction:column;align-items:stretch;gap:10px;padding:14px 0 12px}
+  nav{gap:6px}
+  nav a{font-size:13px;padding:6px 9px;border:1px solid var(--line);border-radius:99px;background:rgba(0,0,0,.28)}
+  nav a.on{color:#fff;border-color:var(--orange);background:rgba(255,138,34,.16)}
+}
+@media (max-width:360px){nav a{padding:5px 9px;font-size:12.5px}}
+
+/* ---- design alignment with richlist pages ---- */
+body{font:15px/1.5 system-ui,-apple-system,"Segoe UI",Roboto,Ubuntu,"Helvetica Neue",Arial,sans-serif;-webkit-font-smoothing:antialiased;background:var(--bg);color:var(--text);display:flex;flex-direction:column}
+.page{flex:1 0 auto;min-height:0!important}
+h1{letter-spacing:-2px}
+h1 .acc{background:linear-gradient(90deg,var(--sand),var(--orange),var(--red));-webkit-background-clip:text;background-clip:text;color:transparent}
+.badge{font-weight:700;letter-spacing:1.6px;font-size:12px;border-color:var(--line);color:var(--muted)}
+.wallet-card{background:linear-gradient(180deg,rgba(34,23,20,.90),rgba(27,18,16,.90));border:1px solid var(--line);border-radius:18px;box-shadow:0 26px 70px rgba(0,0,0,.6)}
+.live-box,.lbank-card,.value-card,.qr-panel,.address-box{background:rgba(12,6,5,.62);border:1px solid var(--line);border-radius:14px}
+.value-card.total{background:linear-gradient(180deg,var(--card2),var(--card));border-color:rgba(226,85,43,.55);box-shadow:0 0 0 1px rgba(226,85,43,.15)}
+.lbank-card{background:linear-gradient(180deg,var(--card2),var(--card))}
+.label,.live-label,.value-card .mini-label{color:var(--muted)}
+.card-subtitle,.hero p,.qr-info span{color:var(--muted)}
+.hero p{color:#e6d4cb}
+.lbank-button,.copy-button{border-radius:12px}
+/* background: mobile = cover (unchanged); desktop = full portrait image over a blurred fill */
+.bg-fill{display:none}
+@media (min-width:921px){
+  .bg-fill{display:block;position:fixed;inset:-40px;z-index:0;background:url(/img/bg-mars.webp) center/cover no-repeat;filter:blur(30px) brightness(.6) saturate(1.15)}
+  .background.active{background-size:contain;background-position:center center;inset:0;-webkit-mask-image:linear-gradient(90deg,transparent calc(50% - 28vh),#000 calc(50% - 14vh),#000 calc(50% + 14vh),transparent calc(50% + 28vh));mask-image:linear-gradient(90deg,transparent calc(50% - 28vh),#000 calc(50% - 14vh),#000 calc(50% + 14vh),transparent calc(50% + 28vh))}
+  h1{font-size:clamp(40px,4.3vw,72px)}
+  .shade{background:linear-gradient(90deg,rgba(5,2,2,.78) 0%,rgba(5,2,2,.35) 30%,rgba(5,2,2,.10) 50%,rgba(5,2,2,.35) 70%,rgba(5,2,2,.78) 100%),linear-gradient(180deg,rgba(5,2,2,.15),rgba(5,2,2,.55))}
+  .page{--heroW:max(280px,min(440px,calc(50vw - 28.2vh - clamp(24px,6vw,90px) - 28px)));grid-template-columns:var(--heroW) minmax(0,1fr) minmax(340px,440px);gap:24px;width:100%}
+  .hero p{font-size:clamp(15px,1.25vw,20px)}
+  .hero{grid-column:1;align-self:start;position:sticky;top:12vh;margin-top:6vh}.wallet-card{grid-column:3}
+}
+
+.brand-logo{width:34px;height:34px;border-radius:50%;flex:none;display:block;box-shadow:0 0 14px rgba(255,138,34,.45)}
 </style>
 </head>
 <body>
-<div class="background active"></div><div class="shade"></div>
+<div class="bg-fill" aria-hidden="true"></div><div class="background active" aria-hidden="true"></div><div class="shade"></div>
+<header class="sitehead"><div class="wrap"><div class="topbar"><a class="brand" href="/"><img class="brand-logo" src="/img/logo.webp" width="34" height="34" alt=""><div>MATO✦MΛRS<small>Marscoin wallet &amp; holders</small></div></a><nav aria-label="Main"><a href="/" class="on" aria-current="page">Wallet</a><a href="/richlist/">Supply</a><a href="/richlist/distribution/">Distribution</a><a href="/richlist/holders/">Holders</a><a href="/richlist/api/">Data</a></nav></div></div></header>
 <main class="page">
 <section class="hero">
 <div class="badge"><span class="badge-dot"></span>Live Marscoin Wallet</div>
-<h1>MATO✦MΛRS</h1>
+<h1>MATO<span class="acc">✦</span>MΛRS</h1>
 <p>Personal Marscoin wallet page with live balance, current MARS price, estimated total USD value, QR code, and wallet address.</p>
-<a class="lbank-button" href="/richlist/" style="display:inline-block;width:auto;margin-top:26px;padding:15px 28px;text-shadow:none;box-shadow:0 14px 30px rgba(255,122,26,.30)">Marscoin Holders</a>
 </section>
 <section class="wallet-card">
 <div class="logo-wrap"><img class="logo" src="/img/logo.webp" alt="Marscoin logo"></div>
@@ -165,7 +214,7 @@ body{
 </div>
 </section>
 </main>
-<footer class="site-footer">Not financial advice. Crypto is risky. · <a href="/privacy/">Privacy</a></footer>
+<footer class="sitefoot"><div class="wrap foot"><div>MATO✦MΛRS · Personal Marscoin wallet page. Not financial advice. Crypto is risky.</div><div><a href="/richlist/api/">Data &amp; methodology</a> · <a href="/privacy/">Privacy</a></div></div></footer>
 <script>
 const ADDRESS="MS2FfY5eUhKZkJ5jWvG9CeyqEUJRaHPcgf";
 const API_BASE="https://explore.marscoin.org/api";
