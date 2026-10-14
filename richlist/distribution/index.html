@@ -429,7 +429,7 @@ const SORT_COL = {2:'b', 3:'b', 5:'t'};     // th data-k -> holders.json column 
 const tipDay = () => Math.floor(HD.tip_time / 86400) - HD.day0;
 const isoDay = d => new Date((d + HD.day0) * 864e5).toISOString().slice(0, 10);
 const isoTime = i => HD.t ? new Date(HD.t[i] * 1000).toISOString().slice(0, 16).replace('T', ' ') + ' UTC' : isoDay(HD.l[i]);
-function rel(d){ const y = (tipDay() - d) / 365.25; if (y < 1/12) return 'this month'; if (y < 1) return Math.round(y*12) + ' mo ago'; return y.toFixed(1).replace('.0','') + ' y ago'; }
+function rel(d){ const y = (tipDay() - d) / 365.25; if (y < 1/12) return 'this month'; if (Math.round(y*12) < 12) return Math.round(y*12) + ' mo ago'; return y.toFixed(1).replace('.0','') + ' y ago'; }
 const minTxt = () => fmt(HD ? HD.min_mars : 100) + ' MARS';
 let _fk = '', _fr = null;
 function filtered(){
