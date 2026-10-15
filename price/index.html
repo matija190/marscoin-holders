@@ -244,6 +244,8 @@ select option{background:#120b09;color:#f3e6df}
 .btn.pri{background:var(--red);border-color:var(--red);color:#fff}
 @media (max-width:1000px){.pricehero{grid-template-columns:1fr}}
 @media (max-width:640px){.bigprice{font-size:42px}}
+/* 6-item menu: tidy 3x2 grid on phones */
+@media (max-width:640px){nav{display:grid!important;grid-template-columns:repeat(3,1fr);gap:6px!important;width:100%}nav a,nav a:not(.home){text-align:center;padding:7px 4px!important;font-size:13px;margin:0}}
 </style>
 </head>
 <body data-page="price">
@@ -251,7 +253,7 @@ select option{background:#120b09;color:#f3e6df}
   <div class="wrap">
     <div class="topbar">
       <a class="brand" href="/"><img class="brand-logo" src="/img/logo.webp" width="34" height="34" alt=""><div>MATO✦MΛRS<small>Marscoin wallet &amp; holders</small></div></a>
-      <nav aria-label="Main"><a href="/">Wallet</a><a href="/richlist/">Supply</a><a href="/richlist/distribution/">Distribution</a><a href="/richlist/holders/">Holders</a><a href="/richlist/api/">Data</a></nav>
+      <nav aria-label="Main"><a href="/">Wallet</a><a href="/price/" class="on" aria-current="page">Price</a><a href="/richlist/">Supply</a><a href="/richlist/distribution/">Distribution</a><a href="/richlist/holders/">Holders</a><a href="/richlist/api/">Data</a></nav>
     </div>
     <div class="headline sm">
       <div class="hero-id sm">
