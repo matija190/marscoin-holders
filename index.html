@@ -235,6 +235,43 @@ h1 .acc{background:linear-gradient(90deg,var(--sand),var(--orange),var(--red));-
 <div class="qr-info"><strong>Scan to Pay</strong><span>Open your Marscoin wallet and scan this QR code.</span></div>
 </div>
 </section>
+<section class="mm-solar" id="solarSystem" aria-label="Our Solar System">
+  <div class="sk">Our Solar System</div>
+  <h2>Mars &mdash; the heart of Marscoin.</h2>
+  <p>Eight planets orbiting the Sun. The red one is ours.</p>
+  <canvas id="solarCanvas" role="img" aria-label="Animated solar system with the Sun and eight planets; Mars is highlighted"></canvas>
+</section>
+<style>
+.mm-solar{grid-column:1/-1;width:100%;max-width:1100px;margin:10px auto 0;box-sizing:border-box;padding:22px;border-radius:16px;border:1px solid rgba(226,85,43,.45);background:radial-gradient(70% 90% at 50% 50%,rgba(255,138,34,.10),transparent 70%),linear-gradient(180deg,#120c0b,#0b0808);box-shadow:0 10px 30px -12px rgba(226,85,43,.35);text-align:center;font-family:inherit}
+.mm-solar .sk{color:#ff8a22;font-size:12px;text-transform:uppercase;letter-spacing:.8px;font-weight:600}
+.mm-solar h2{margin:6px 0 4px;font-size:22px;color:#f3e6df}
+.mm-solar p{margin:0 0 10px;color:#b39a8f;font-size:14px}
+.mm-solar canvas{display:block;width:100%;height:auto;aspect-ratio:16/10}
+@media (max-width:640px){.mm-solar{padding:16px 10px}.mm-solar canvas{aspect-ratio:1/1}}
+</style>
+<script>
+(function(){
+var c=document.getElementById('solarCanvas');if(!c)return;var x=c.getContext('2d');
+var rm=window.matchMedia&&matchMedia('(prefers-reduced-motion: reduce)').matches;
+var P=[["Mercury",.10,2.5,"#b8b0a8",4.15],["Venus",.17,4,"#e8c48a",1.62],["Earth",.25,4.3,"#4f9be8",1],["Mars",.35,9,"#ff5a2a",.53],["Jupiter",.52,9,"#d9a877",.084],["Saturn",.67,7.5,"#e6d29a",.034],["Uranus",.82,5,"#8fe0e6",.012],["Neptune",.95,5,"#4a6cf0",.006]];
+var st=[],W,H,R,d;for(var i=0;i<140;i++)st.push([Math.random(),Math.random(),Math.random()]);
+function rs(){d=window.devicePixelRatio||1;W=c.clientWidth;H=c.clientHeight;c.width=W*d;c.height=H*d;x.setTransform(d,0,0,d,0,0);R=Math.min(W,H)/2-14}
+var t0=performance.now();
+function f(n){var t=rm?40:(n-t0)/1000*.35+40,cx=W/2,cy=H/2,k=Math.max(.7,Math.min(1.2,R/250));x.clearRect(0,0,W,H);
+st.forEach(function(s){x.fillStyle="rgba(255,240,230,"+(.2+.5*s[2])+")";x.fillRect(s[0]*W,s[1]*H,1,1)});
+var g=x.createRadialGradient(cx,cy,0,cx,cy,30*k);g.addColorStop(0,"#fff6c0");g.addColorStop(.35,"#ffc23a");g.addColorStop(1,"rgba(255,138,34,0)");x.fillStyle=g;x.beginPath();x.arc(cx,cy,30*k,0,7);x.fill();
+x.font=(10*k+1|0)+"px system-ui,sans-serif";x.textAlign="center";
+P.forEach(function(p,i){var r=18*k+p[1]*(R-18*k),m=p[0]=="Mars";x.strokeStyle=m?"rgba(255,90,42,.55)":"rgba(255,255,255,.12)";x.lineWidth=m?1.5:1;x.setLineDash(m?[4,4]:[]);x.beginPath();x.arc(cx,cy,r,0,7);x.stroke();x.setLineDash([]);
+var a=t*p[4]+i*1.7,px=cx+r*Math.cos(a),py=cy+r*Math.sin(a),s=p[2]*k;
+if(m){var pu=rm?.5:(Math.sin(n/400)+1)/2,gg=x.createRadialGradient(px,py,0,px,py,s*3.2);gg.addColorStop(0,"rgba(255,90,42,"+(.5+.3*pu)+")");gg.addColorStop(1,"rgba(255,90,42,0)");x.fillStyle=gg;x.beginPath();x.arc(px,py,s*3.2,0,7);x.fill()}
+x.fillStyle=p[3];x.beginPath();x.arc(px,py,s,0,7);x.fill();
+if(p[0]=="Saturn"){x.strokeStyle="rgba(230,210,154,.8)";x.lineWidth=1.3;x.beginPath();x.ellipse(px,py,s*2,s*.7,-.4,0,7);x.stroke()}
+if(m){x.font="bold "+(14*k|0)+"px system-ui,sans-serif";x.fillStyle="#ffb08a";x.fillText("MARS",px,py-s-8);x.font=(10*k+1|0)+"px system-ui,sans-serif"}
+else{x.fillStyle="rgba(230,215,205,.75)";x.fillText(p[0],px,py-s-5)}});
+if(!rm)requestAnimationFrame(f)}
+rs();addEventListener('resize',function(){rs();if(rm)f(0)});requestAnimationFrame(f);
+})();
+</script>
 </main>
 <footer class="sitefoot"><div class="wrap foot"><div>MATO✦MΛRS · Personal Marscoin wallet page. Not financial advice. Crypto is risky.</div><div><a href="/richlist/api/">Data &amp; methodology</a> · <a href="/privacy/">Privacy</a></div><div class="offnote">Community site, not affiliated with the Marscoin Foundation · Official site: <a href="https://www.marscoin.org/" target="_blank" rel="noopener">marscoin.org</a></div></div></footer>
 <script>
