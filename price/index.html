@@ -337,9 +337,15 @@ select option{background:#120b09;color:#f3e6df}
   load(); setInterval(load, 60000);
   // reload the card image every 15 min (bypass the browser cache with a time bucket)
   setInterval(() => { $('pCard').src = API + '/img/price-card.png?t=' + Math.floor(Date.now()/900000); }, 900000);
+  // share links carry ?d=MMDDHH (UTC) so X, WhatsApp etc. always fetch a fresh card
+  const shareUrl = () => { const d = new Date(), z = n => String(n).padStart(2, '0');
+    return 'https://matomarswallet.com/price/?d=' + z(d.getUTCMonth() + 1) + z(d.getUTCDate()) + z(d.getUTCHours()); };
+  const setShare = () => { $('shareX').href = 'https://x.com/intent/post?text=' + encodeURIComponent('Marscoin (MARS) live price') + '&url=' + encodeURIComponent(shareUrl()); };
+  setShare(); $('shareX').addEventListener('click', setShare); setInterval(setShare, 60000);
   $('copyLink').addEventListener('click', async () => {
-    try { await navigator.clipboard.writeText('https://matomarswallet.com/price/'); $('copyLink').textContent = 'Link copied'; }
-    catch(e) { prompt('Copy this link:', 'https://matomarswallet.com/price/'); }
+    const u = shareUrl();
+    try { await navigator.clipboard.writeText(u); $('copyLink').textContent = 'Link copied'; }
+    catch(e) { prompt('Copy this link:', u); }
     setTimeout(() => $('copyLink').textContent = 'Copy link', 2000);
   });
 })();
