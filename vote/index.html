@@ -267,9 +267,27 @@ select option{background:#120b09;color:#f3e6df}
 .note{color:var(--dim);font-size:13.5px;margin:16px 0 0;max-width:560px;line-height:1.5}
 .share-label{color:var(--muted);font-size:13px;margin:22px 0 8px}
 @media (max-width:640px){.votecta{width:100%;text-align:center;box-sizing:border-box;font-size:16.5px;padding:14px 18px}}
+
+/* ?go=1 interstitial (hidden unless the redirect query is present) */
+.go-fallback{display:none;margin:18px auto 0;max-width:1200px;padding:0 24px;box-sizing:border-box}
+html.go .go-fallback{display:block}
+.go-fallback .banner{margin:18px 0 0}
 </style>
+<script>
+(function(){
+  var dest = 'https://coinomi.featureupvote.com/suggestions/725975/marscoin-mars';
+  try {
+    if (new URLSearchParams(location.search).has('go')) {
+      document.documentElement.classList.add('go');
+      location.replace(dest);
+    }
+  } catch (e) {}
+})();
+</script>
 </head>
 <body data-page="vote">
+<div class="go-fallback"><p class="banner">Opening the Coinomi vote page… <a href="https://coinomi.featureupvote.com/suggestions/725975/marscoin-mars">Continue to the vote</a></p></div>
+<noscript><p class="banner wrap" style="margin:18px auto">To vote for Marscoin on Coinomi, open <a href="https://coinomi.featureupvote.com/suggestions/725975/marscoin-mars">the Coinomi vote page</a>.</p></noscript>
 <header class="hero">
   <div class="wrap">
     <div class="topbar">
@@ -299,7 +317,7 @@ select option{background:#120b09;color:#f3e6df}
         <p class="note">After you vote, you can optionally leave an email if you want status updates. That is not required to cast a vote.</p>
         <div class="share-label">Share this page so more people can vote.</div>
         <div class="share">
-          <a class="btn pri" id="shareX" href="https://x.com/intent/post?text=Want%20Marscoin%20in%20the%20Coinomi%20wallet%3F%20%F0%9F%9A%80%0A%0AVote%20for%20%24MARS%20here%3A%0Ahttps%3A//matomarswallet.com/vote/%0A%0A%23Marscoin%20%23MARS%20%23Coinomi" target="_blank" rel="noopener">Share on X</a>
+          <a class="btn pri" id="shareX" href="https://x.com/intent/post?text=Want%20Marscoin%20in%20the%20Coinomi%20wallet%3F%20%F0%9F%9A%80%0A%0AVote%20for%20%24MARS%20here%3A%0Ahttps%3A//matomarswallet.com/vote/%3Fgo%3D1%0A%0A%23Marscoin%20%23MARS%20%23Coinomi" target="_blank" rel="noopener">Share on X</a>
           <button class="btn" id="copyLink" type="button">Copy link</button>
         </div>
       </div>
@@ -318,7 +336,7 @@ select option{background:#120b09;color:#f3e6df}
 
 <script>
 (function(){
-  const shareUrl = 'https://matomarswallet.com/vote/';
+  const shareUrl = 'https://matomarswallet.com/vote/?go=1';
   const shareText = 'Want Marscoin in the Coinomi wallet? \uD83D\uDE80\n\nVote for $MARS here:\n' + shareUrl + '\n\n#Marscoin #MARS #Coinomi';
   const shareX = document.getElementById('shareX');
   shareX.href = 'https://x.com/intent/post?text=' + encodeURIComponent(shareText);
