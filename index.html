@@ -164,13 +164,18 @@ h1 .acc{background:linear-gradient(90deg,var(--sand),var(--orange),var(--red));-
 .foot .offnote{flex-basis:100%;width:100%;font-size:12.5px;opacity:.85}
 </style>
 <style>
-.mm-vote{max-width:1100px;margin:22px auto;box-sizing:border-box;display:flex;align-items:center;justify-content:space-between;gap:18px;flex-wrap:wrap;padding:18px 22px;border-radius:14px;border:1px solid rgba(226,85,43,.55);background:radial-gradient(120% 140% at 0% 0%,rgba(255,138,34,.16),transparent 55%),linear-gradient(180deg,#221714,#1b1210);box-shadow:0 0 0 1px rgba(226,85,43,.15),0 10px 30px -12px rgba(226,85,43,.35);font-family:inherit;text-align:left}
+.mm-vote{max-width:1100px;margin:22px auto;box-sizing:border-box;display:flex;flex-direction:column;align-items:stretch;gap:14px;padding:18px 22px;border-radius:14px;border:1px solid rgba(226,85,43,.55);background:radial-gradient(120% 140% at 0% 0%,rgba(255,138,34,.16),transparent 55%),linear-gradient(180deg,#221714,#1b1210);box-shadow:0 0 0 1px rgba(226,85,43,.15),0 10px 30px -12px rgba(226,85,43,.35);font-family:inherit;text-align:left}
+.mm-vote-row{display:flex;align-items:center;justify-content:space-between;gap:18px;flex-wrap:wrap;width:100%}
 .mm-vote .vk{color:#ff8a22;font-size:12px;text-transform:uppercase;letter-spacing:.8px;font-weight:600}
 .mm-vote h3{margin:4px 0;font-size:19px;color:#f3e6df}
 .mm-vote p{margin:0;color:#b39a8f;font-size:14px;max-width:560px;line-height:1.45}
 .mm-vote .vbtn{display:inline-block;white-space:nowrap;padding:11px 20px;border-radius:99px;font-weight:700;font-size:14.5px;color:#1a0b05;text-decoration:none;background:linear-gradient(180deg,#ffd15f,#ff8a22);box-shadow:0 6px 18px -6px rgba(255,138,34,.6);transition:transform .15s,box-shadow .15s}
 .mm-vote .vbtn:hover{transform:translateY(-1px);box-shadow:0 10px 24px -6px rgba(255,138,34,.75)}
-@media (max-width:640px){.mm-vote{margin:16px 12px;padding:16px}.mm-vote .vbtn{width:100%;text-align:center;box-sizing:border-box}}
+.mm-vote .share{display:flex;flex-wrap:wrap;gap:10px;margin:0}
+.mm-vote .btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;background:#120b09;border:1px solid #3a2520;color:#f3e6df;border-radius:10px;padding:9px 14px;font-size:14px;cursor:pointer;min-height:40px;font-family:inherit;text-decoration:none}
+.mm-vote .btn:hover{border-color:#ff8a22;text-decoration:none}
+.mm-vote .btn.pri{background:#ff6a1a;border-color:#ff6a1a;color:#fff}
+@media (max-width:640px){.mm-vote{margin:16px 12px;padding:16px}.mm-vote .vbtn{width:100%;text-align:center;box-sizing:border-box}.mm-vote .btn{flex:1 1 auto;min-width:140px}}
 </style>
 </head>
 <body>
@@ -183,12 +188,18 @@ h1 .acc{background:linear-gradient(90deg,var(--sand),var(--orange),var(--red));-
 <p>Personal Marscoin wallet page with live balance, current MARS price, estimated total USD value, QR code, and wallet address.</p>
 </section>
 <div class="mm-vote" id="coinomiVote">
-  <div>
-    <div class="vk">Community vote</div>
-    <h3>Help bring Marscoin to Coinomi</h3>
-    <p>Coinomi adds new coins based on community votes. One vote for Marscoin (MARS) helps get native MARS support in the Coinomi wallet.</p>
+  <div class="mm-vote-row">
+    <div>
+      <div class="vk">Community vote</div>
+      <h3>Help bring Marscoin to Coinomi</h3>
+      <p>Coinomi adds new coins based on community votes. One vote for Marscoin (MARS) helps get native MARS support in the Coinomi wallet.</p>
+    </div>
+    <a class="vbtn" href="https://coinomi.featureupvote.com/suggestions/725975/marscoin-mars" target="_blank" rel="noopener">Vote for Marscoin on Coinomi &rarr;</a>
   </div>
-  <a class="vbtn" href="https://coinomi.featureupvote.com/suggestions/725975/marscoin-mars" target="_blank" rel="noopener">Vote for Marscoin on Coinomi &rarr;</a>
+  <div class="share">
+    <a class="btn pri" id="voteShareX" href="https://x.com/intent/post?text=Want%20Marscoin%20in%20the%20Coinomi%20wallet%3F%20%F0%9F%9A%80%0A%0AVote%20for%20%24MARS%20here%3A%0Ahttps%3A//matomarswallet.com/vote/%3Fgo%3D1%0A%0A%23Marscoin%20%23MARS%20%23Coinomi" target="_blank" rel="noopener">Share on X</a>
+    <button class="btn" id="voteCopyLink" type="button">Copy link</button>
+  </div>
 </div>
 
 <section class="wallet-card">
@@ -377,5 +388,21 @@ loadLastTransaction();
 setInterval(loadLastTransaction, 60000);
 </script>
 
+
+<script>
+(function(){
+  const shareUrl = 'https://matomarswallet.com/vote/?go=1';
+  const shareText = 'Want Marscoin in the Coinomi wallet? \uD83D\uDE80\n\nVote for $MARS here:\n' + shareUrl + '\n\n#Marscoin #MARS #Coinomi';
+  const shareX = document.getElementById('voteShareX');
+  if (shareX) shareX.href = 'https://x.com/intent/post?text=' + encodeURIComponent(shareText);
+  const copyBtn = document.getElementById('voteCopyLink');
+  if (!copyBtn) return;
+  copyBtn.addEventListener('click', async () => {
+    try { await navigator.clipboard.writeText(shareUrl); copyBtn.textContent = 'Link copied'; }
+    catch(e) { prompt('Copy this link:', shareUrl); }
+    setTimeout(() => { copyBtn.textContent = 'Copy link'; }, 2000);
+  });
+})();
+</script>
 </body>
 </html>
