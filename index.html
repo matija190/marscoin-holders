@@ -53,6 +53,22 @@ h1{margin:22px 0 14px;font-size:clamp(44px,7vw,92px);line-height:.95;letter-spac
 .value-card .mini-value{font-size:22px;font-weight:900;color:#fff;word-break:break-word}
 .value-card.total{grid-column:1/-1;background:linear-gradient(135deg,rgba(255,209,95,.18),rgba(255,138,34,.08));border-color:rgba(255,209,95,.28)}
 .value-card.total .mini-value{font-size:30px;color:var(--gold)}
+
+.currency-card{position:relative;cursor:pointer}
+.currency-card:hover,.currency-card.open{border-color:rgba(255,209,95,.45)}
+.currency-btn{display:flex;align-items:center;justify-content:space-between;gap:8px;width:100%;margin:0;padding:0;border:0;background:transparent;cursor:pointer;font:inherit;font-size:22px;font-weight:900;color:#fff;text-align:left;line-height:1.2}
+.currency-btn .chev{width:8px;height:8px;border-right:2px solid #ffd15f;border-bottom:2px solid #ffd15f;transform:rotate(45deg);margin-top:-4px;flex:0 0 auto;transition:transform .15s}
+.currency-card.open .currency-btn .chev{transform:rotate(225deg);margin-top:2px}
+.currency-menu{position:fixed;z-index:4000;margin:0;padding:6px;list-style:none;background:#1b1210;border:1px solid rgba(255,209,95,.35);border-radius:12px;box-shadow:0 16px 40px rgba(0,0,0,.55);max-height:min(360px,60vh);overflow:auto;box-sizing:border-box}
+.currency-menu[hidden]{display:none}
+.currency-menu li{display:flex;justify-content:space-between;align-items:baseline;gap:10px;padding:7px 10px;border-radius:8px;cursor:pointer;color:#f3e6df;font-size:14px;font-weight:800}
+.currency-menu li small{font-weight:600;color:#b39a8f;font-size:11px}
+.currency-menu li:hover,.currency-menu li:focus{background:rgba(255,209,95,.12);outline:none}
+.currency-menu li[aria-selected="true"]{color:#ffd15f;background:rgba(255,209,95,.14)}
+.mini-value .btc-line{display:block;white-space:nowrap;font-size:17px;letter-spacing:-.3px}
+.value-card.total .btc-line{font-size:26px;letter-spacing:-.5px}
+.mini-value .sats{display:block;margin-top:3px;font-size:12px;font-weight:700;letter-spacing:.3px;color:#ffd15f}
+.value-card.total .sats{font-size:14px}
 .lbank-card{background:linear-gradient(135deg,rgba(255,209,95,.16),rgba(255,138,34,.10));border:1px solid rgba(255,209,95,.28)}
 .lbank-row{display:flex;align-items:center;gap:13px;margin:12px 0}
 .lbank-logo{width:46px;height:46px;border-radius:50%;display:grid;place-items:center;background:#ffd400;color:#111;font-weight:900;flex:0 0 auto}
@@ -143,7 +159,7 @@ h1 .acc{background:linear-gradient(90deg,var(--sand),var(--orange),var(--red));-
   .shade{background:linear-gradient(90deg,rgba(5,2,2,.78) 0%,rgba(5,2,2,.35) 30%,rgba(5,2,2,.10) 50%,rgba(5,2,2,.35) 70%,rgba(5,2,2,.78) 100%),linear-gradient(180deg,rgba(5,2,2,.15),rgba(5,2,2,.55))}
   .page{--heroW:max(280px,min(440px,calc(50vw - 28.2vh - clamp(24px,6vw,90px) - 28px)));grid-template-columns:var(--heroW) minmax(0,1fr) minmax(340px,440px);gap:24px;width:100%}
   .hero p{font-size:clamp(15px,1.25vw,20px)}
-  .hero{grid-column:1;grid-row:1;align-self:start;position:sticky;top:12vh;margin-top:6vh}.wallet-card{grid-column:3;grid-row:1}.mm-vote{grid-row:2}.mm-solar{grid-row:3}
+  .hero{grid-column:1;grid-row:1;align-self:start;position:sticky;top:12vh;margin-top:6vh}.wallet-card{grid-column:3;grid-row:1}.mm-vote{grid-row:2}
 }
 
 .brand-logo{width:34px;height:34px;border-radius:50%;flex:none;display:block;box-shadow:0 0 14px rgba(255,138,34,.45)}
@@ -215,7 +231,23 @@ h1 .acc{background:linear-gradient(90deg,var(--sand),var(--orange),var(--red));-
 
 <div class="value-grid">
   <div class="value-card"><div class="mini-label">1 MARS Price</div><div class="mini-value" id="marsPrice">Loading...</div></div>
-  <div class="value-card"><div class="mini-label">Currency</div><div class="mini-value">USD</div></div>
+  <div class="value-card currency-card" id="currencyCard">
+    <div class="mini-label" id="currencyLabel">Currency</div>
+    <button type="button" class="currency-btn" id="currencyBtn" aria-haspopup="listbox" aria-expanded="false" aria-controls="currencyMenu" aria-label="Display currency">
+      <span id="currencyCode">USD</span><span class="chev" aria-hidden="true"></span>
+    </button>
+    <ul class="currency-menu" id="currencyMenu" role="listbox" aria-labelledby="currencyLabel" hidden>
+      <li role="option" tabindex="-1" data-ccy="usd" aria-selected="true">USD <small>US Dollar</small></li>
+      <li role="option" tabindex="-1" data-ccy="eur" aria-selected="false">EUR <small>Euro</small></li>
+      <li role="option" tabindex="-1" data-ccy="gbp" aria-selected="false">GBP <small>British Pound</small></li>
+      <li role="option" tabindex="-1" data-ccy="chf" aria-selected="false">CHF <small>Swiss Franc</small></li>
+      <li role="option" tabindex="-1" data-ccy="cad" aria-selected="false">CAD <small>Canadian Dollar</small></li>
+      <li role="option" tabindex="-1" data-ccy="aud" aria-selected="false">AUD <small>Australian Dollar</small></li>
+      <li role="option" tabindex="-1" data-ccy="jpy" aria-selected="false">JPY <small>Japanese Yen</small></li>
+      <li role="option" tabindex="-1" data-ccy="btc" aria-selected="false">BTC <small>Bitcoin</small></li>
+      <li role="option" tabindex="-1" data-ccy="eth" aria-selected="false">ETH <small>Ethereum</small></li>
+    </ul>
+  </div>
   <div class="value-card total"><div class="mini-label">Estimated Total Value</div><div class="mini-value" id="totalValue">Loading...</div></div>
 </div>
 
@@ -261,53 +293,168 @@ h1 .acc{background:linear-gradient(90deg,var(--sand),var(--orange),var(--red));-
 <div class="qr-info"><strong>Scan to Pay</strong><span>Open your Marscoin wallet and scan this QR code.</span></div>
 </div>
 </section>
-<section class="mm-solar" id="solarSystem" aria-label="Our Solar System">
-  <div class="sk">Our Solar System</div>
-  <h2>Mars &mdash; the heart of Marscoin.</h2>
-  <p>Eight planets orbiting the Sun. The red one is ours.</p>
-  <canvas id="solarCanvas" role="img" aria-label="Animated solar system with the Sun and eight planets; Mars is highlighted"></canvas>
-</section>
-<style>
-.mm-solar{grid-column:1/-1;width:100%;max-width:1100px;margin:10px auto 0;box-sizing:border-box;padding:22px;border-radius:16px;border:1px solid rgba(226,85,43,.45);background:radial-gradient(70% 90% at 50% 50%,rgba(255,138,34,.10),transparent 70%),linear-gradient(180deg,#120c0b,#0b0808);box-shadow:0 10px 30px -12px rgba(226,85,43,.35);text-align:center;font-family:inherit}
-.mm-solar .sk{color:#ff8a22;font-size:12px;text-transform:uppercase;letter-spacing:.8px;font-weight:600}
-.mm-solar h2{margin:6px 0 4px;font-size:22px;color:#f3e6df}
-.mm-solar p{margin:0 0 10px;color:#b39a8f;font-size:14px}
-.mm-solar canvas{display:block;width:100%;height:auto;aspect-ratio:16/10}
-@media (max-width:640px){.mm-solar{padding:16px 10px}.mm-solar canvas{aspect-ratio:1/1}}
-</style>
-<script>
-(function(){
-var c=document.getElementById('solarCanvas');if(!c)return;var x=c.getContext('2d');
-var rm=window.matchMedia&&matchMedia('(prefers-reduced-motion: reduce)').matches;
-var P=[["Mercury",.10,2.5,"#b8b0a8",4.15],["Venus",.17,4,"#e8c48a",1.62],["Earth",.25,4.3,"#4f9be8",1],["Mars",.35,9,"#ff5a2a",.53],["Jupiter",.52,9,"#d9a877",.084],["Saturn",.67,7.5,"#e6d29a",.034],["Uranus",.82,5,"#8fe0e6",.012],["Neptune",.95,5,"#4a6cf0",.006]];
-var st=[],W,H,R,d;for(var i=0;i<140;i++)st.push([Math.random(),Math.random(),Math.random()]);
-function rs(){d=window.devicePixelRatio||1;W=c.clientWidth;H=c.clientHeight;c.width=W*d;c.height=H*d;x.setTransform(d,0,0,d,0,0);R=Math.min(W,H)/2-14}
-var t0=performance.now();
-function f(n){var t=rm?40:(n-t0)/1000*.35+40,cx=W/2,cy=H/2,k=Math.max(.7,Math.min(1.2,R/250));x.clearRect(0,0,W,H);
-st.forEach(function(s){x.fillStyle="rgba(255,240,230,"+(.2+.5*s[2])+")";x.fillRect(s[0]*W,s[1]*H,1,1)});
-var g=x.createRadialGradient(cx,cy,0,cx,cy,30*k);g.addColorStop(0,"#fff6c0");g.addColorStop(.35,"#ffc23a");g.addColorStop(1,"rgba(255,138,34,0)");x.fillStyle=g;x.beginPath();x.arc(cx,cy,30*k,0,7);x.fill();
-x.font=(10*k+1|0)+"px system-ui,sans-serif";x.textAlign="center";
-P.forEach(function(p,i){var r=18*k+p[1]*(R-18*k),m=p[0]=="Mars";x.strokeStyle=m?"rgba(255,90,42,.55)":"rgba(255,255,255,.12)";x.lineWidth=m?1.5:1;x.setLineDash(m?[4,4]:[]);x.beginPath();x.arc(cx,cy,r,0,7);x.stroke();x.setLineDash([]);
-var a=t*p[4]+i*1.7,px=cx+r*Math.cos(a),py=cy+r*Math.sin(a),s=p[2]*k;
-if(m){var pu=rm?.5:(Math.sin(n/400)+1)/2,gg=x.createRadialGradient(px,py,0,px,py,s*3.2);gg.addColorStop(0,"rgba(255,90,42,"+(.5+.3*pu)+")");gg.addColorStop(1,"rgba(255,90,42,0)");x.fillStyle=gg;x.beginPath();x.arc(px,py,s*3.2,0,7);x.fill()}
-x.fillStyle=p[3];x.beginPath();x.arc(px,py,s,0,7);x.fill();
-if(p[0]=="Saturn"){x.strokeStyle="rgba(230,210,154,.8)";x.lineWidth=1.3;x.beginPath();x.ellipse(px,py,s*2,s*.7,-.4,0,7);x.stroke()}
-if(m){x.font="bold "+(14*k|0)+"px system-ui,sans-serif";x.fillStyle="#ffb08a";x.fillText("MARS",px,py-s-8);x.font=(10*k+1|0)+"px system-ui,sans-serif"}
-else{x.fillStyle="rgba(230,215,205,.75)";x.fillText(p[0],px,py-s-5)}});
-if(!rm)requestAnimationFrame(f)}
-rs();addEventListener('resize',function(){rs();if(rm)f(0)});requestAnimationFrame(f);
-})();
-</script>
 </main>
 <footer class="sitefoot"><div class="wrap foot"><div>MATO✦MΛRS · Personal Marscoin wallet page. Not financial advice. Crypto is risky.</div><div><a href="/richlist/api/">Data &amp; methodology</a> · <a href="/privacy/">Privacy</a></div><div class="offnote">Community site, not affiliated with the Marscoin Foundation · Official site: <a href="https://www.marscoin.org/" target="_blank" rel="noopener">marscoin.org</a></div></div></footer>
 <script>
 const ADDRESS="M84rZAMEPZ53gcUARLSrZ1tNB9EsG8VNKS";
 const API_BASE="https://explore.marscoin.org/api";
-const PRICE_API="https://api.coingecko.com/api/v3/simple/price?ids=marscoin&vs_currencies=usd";
-let currentBalance=null;let currentPrice=null;
+const PRICE_API="https://api.coingecko.com/api/v3/simple/price?ids=marscoin&vs_currencies=usd,eur,btc,gbp,chf,jpy,cad,aud,eth";
+const CURRENCY_KEY="matomars_currency";
+const CURRENCIES=["usd","eur","gbp","chf","cad","aud","jpy","btc","eth"];
+let currentBalance=null;
+let prices=null;
+function loadCurrency(){
+  try{
+    const v=(localStorage.getItem(CURRENCY_KEY)||"usd").toLowerCase();
+    if(CURRENCIES.includes(v)) return v;
+  }catch(e){}
+  return "usd";
+}
+let currency=loadCurrency();
+function saveCurrency(v){
+  currency=v;
+  try{localStorage.setItem(CURRENCY_KEY,v)}catch(e){}
+}
 function formatMars(v){const n=Number(v);if(Number.isNaN(n))return v;return n.toLocaleString(undefined,{maximumFractionDigits:8})+" MARS"}
-function formatUSD(v){const n=Number(v);if(Number.isNaN(n))return "Unavailable";return "$"+n.toLocaleString(undefined,{minimumFractionDigits:2,maximumFractionDigits:6})}
-function updateTotal(){if(currentBalance===null||currentPrice===null){document.getElementById("totalValue").innerText="Loading...";return;}document.getElementById("totalValue").innerText=formatUSD(currentBalance*currentPrice);}
+function formatFiat(v,symbol,min,max){const n=Number(v);if(Number.isNaN(n))return "Unavailable";return symbol+n.toLocaleString(undefined,{minimumFractionDigits:min,maximumFractionDigits:max})}
+function formatAmount(v,ccy){
+  const n=Number(v);
+  if(Number.isNaN(n)) return "Unavailable";
+  if(ccy==="usd") return formatFiat(n,"$",2,6);
+  if(ccy==="eur") return formatFiat(n,"€",2,6);
+  if(ccy==="gbp") return formatFiat(n,"£",2,6);
+  if(ccy==="chf") return "CHF "+n.toLocaleString(undefined,{minimumFractionDigits:2,maximumFractionDigits:6});
+  if(ccy==="cad") return formatFiat(n,"CA$",2,6);
+  if(ccy==="aud") return formatFiat(n,"A$",2,6);
+  if(ccy==="jpy") return formatFiat(n,"¥",0,2);
+  if(ccy==="eth") return n.toLocaleString(undefined,{minimumFractionDigits:6,maximumFractionDigits:8})+" ETH";
+  return String(n);
+}
+function setMoneyEl(el,v,ccy){
+  if(!el) return;
+  if(v===null||Number.isNaN(Number(v))){el.textContent="Unavailable";return;}
+  if(ccy==="btc"){
+    const n=Number(v);
+    const btc=n.toLocaleString(undefined,{minimumFractionDigits:8,maximumFractionDigits:8});
+    const sats=Math.round(n*1e8).toLocaleString(undefined,{maximumFractionDigits:0});
+    el.innerHTML='<span class="btc-line">'+btc+" BTC</span><span class=\"sats\">"+sats+" sats</span>";
+    return;
+  }
+  el.textContent=formatAmount(v,ccy);
+}
+function updateTotal(){
+  const pEl=document.getElementById("marsPrice");
+  const tEl=document.getElementById("totalValue");
+  if(prices===null) return;
+  const price=prices[currency];
+  if(price==null||Number.isNaN(Number(price))){
+    if(pEl) pEl.textContent="Unavailable";
+    if(tEl) tEl.textContent="Unavailable";
+    return;
+  }
+  setMoneyEl(pEl,price,currency);
+  if(currentBalance===null){if(tEl) tEl.textContent="Loading...";return;}
+  setMoneyEl(tEl,currentBalance*price,currency);
+}
+function syncCurrencyUI(){
+  const code=document.getElementById("currencyCode");
+  if(code) code.textContent=currency.toUpperCase();
+  document.querySelectorAll("#currencyMenu [data-ccy]").forEach(li=>{
+    li.setAttribute("aria-selected", li.dataset.ccy===currency ? "true" : "false");
+  });
+}
+function setCurrency(v){
+  if(!CURRENCIES.includes(v)) v="usd";
+  saveCurrency(v);
+  syncCurrencyUI();
+  closeCurrencyMenu();
+  updateTotal();
+}
+function placeCurrencyMenu(){
+  const menu=document.getElementById("currencyMenu");
+  const card=document.getElementById("currencyCard");
+  if(!menu||!card) return;
+  const r=card.getBoundingClientRect();
+  const gap=6, pad=8;
+  const width=Math.max(r.width, 210);
+  let left=r.left;
+  if(left+width>window.innerWidth-pad) left=Math.max(pad, window.innerWidth-width-pad);
+  if(left<pad) left=pad;
+  menu.style.left=left+"px";
+  menu.style.width=width+"px";
+  menu.style.right="auto";
+  menu.style.top="0px";
+  menu.style.bottom="auto";
+  menu.style.maxHeight="";
+  const want=Math.min(360, Math.ceil(menu.scrollHeight)||360);
+  const spaceBelow=window.innerHeight-r.bottom-pad;
+  const spaceAbove=r.top-pad;
+  if(spaceBelow>=Math.min(want, 220) || spaceBelow>=spaceAbove){
+    menu.style.maxHeight=Math.max(160, spaceBelow)+"px";
+    menu.style.top=(r.bottom+gap)+"px";
+    menu.style.bottom="auto";
+  }else{
+    menu.style.maxHeight=Math.max(160, spaceAbove)+"px";
+    menu.style.top="auto";
+    menu.style.bottom=(window.innerHeight-r.top+gap)+"px";
+  }
+}
+function openCurrencyMenu(){
+  const menu=document.getElementById("currencyMenu");
+  const btn=document.getElementById("currencyBtn");
+  const card=document.getElementById("currencyCard");
+  if(!menu||!btn) return;
+  document.body.appendChild(menu);
+  menu.hidden=false;
+  btn.setAttribute("aria-expanded","true");
+  if(card) card.classList.add("open");
+  placeCurrencyMenu();
+  const selected=menu.querySelector('[aria-selected="true"]')||menu.querySelector("[data-ccy]");
+  if(selected) selected.focus();
+}
+function closeCurrencyMenu(){
+  const menu=document.getElementById("currencyMenu");
+  const btn=document.getElementById("currencyBtn");
+  const card=document.getElementById("currencyCard");
+  if(!menu||!btn) return;
+  menu.hidden=true;
+  btn.setAttribute("aria-expanded","false");
+  if(card){
+    card.classList.remove("open");
+    card.appendChild(menu);
+  }
+}
+function toggleCurrencyMenu(ev){
+  if(ev) ev.stopPropagation();
+  const menu=document.getElementById("currencyMenu");
+  if(!menu) return;
+  if(menu.hidden) openCurrencyMenu(); else closeCurrencyMenu();
+}
+(function initCurrencySwitcher(){
+  const card=document.getElementById("currencyCard");
+  const btn=document.getElementById("currencyBtn");
+  const menu=document.getElementById("currencyMenu");
+  if(!card||!btn||!menu) return;
+  syncCurrencyUI();
+  btn.addEventListener("click", toggleCurrencyMenu);
+  menu.addEventListener("click", ev=>{
+    const li=ev.target.closest("[data-ccy]");
+    if(!li) return;
+    ev.preventDefault();
+    ev.stopPropagation();
+    setCurrency(li.dataset.ccy);
+  });
+  document.addEventListener("click", ev=>{
+    const menu=document.getElementById("currencyMenu");
+    if(card.contains(ev.target) || (menu && menu.contains(ev.target))) return;
+    closeCurrencyMenu();
+  });
+  document.addEventListener("keydown", ev=>{
+    if(ev.key==="Escape") closeCurrencyMenu();
+  });
+  window.addEventListener("resize", ()=>{ if(!menu.hidden) placeCurrencyMenu(); });
+  window.addEventListener("scroll", ()=>{ if(!menu.hidden) placeCurrencyMenu(); }, true);
+})();
 async function loadBalance(){
  const status=document.getElementById("status"), balance=document.getElementById("balance"), last=document.getElementById("lastUpdate");
  status.innerText="Loading";
@@ -315,7 +462,25 @@ async function loadBalance(){
  catch(e){try{const res2=await fetch(API_BASE+"/addr/"+ADDRESS+"/balance",{cache:"no-store"});if(!res2.ok)throw new Error("API error");const raw=await res2.text();const sats=Number(raw);currentBalance=Number.isNaN(sats)?null:sats/100000000;balance.innerText=currentBalance===null?raw:formatMars(currentBalance);status.innerText="Live";last.innerText="Last updated: "+new Date().toLocaleString();}catch(err){currentBalance=null;balance.innerText="Unavailable";status.innerText="Offline";last.innerText="Explorer unavailable or browser request blocked.";}}
  updateTotal();
 }
-async function loadPrice(){try{const res=await fetch(PRICE_API,{cache:"no-store"});if(!res.ok)throw new Error("Price API error");const data=await res.json();currentPrice=Number(data.marscoin.usd);document.getElementById("marsPrice").innerText=formatUSD(currentPrice);}catch(e){currentPrice=null;document.getElementById("marsPrice").innerText="Unavailable";}updateTotal();}
+async function loadPrice(){
+  try{
+    const res=await fetch(PRICE_API,{cache:"no-store"});
+    if(!res.ok) throw new Error("Price API error");
+    const data=await res.json();
+    const m=data.marscoin||{};
+    const next={};
+    CURRENCIES.forEach(c=>{const n=Number(m[c]);next[c]=Number.isNaN(n)?null:n;});
+    prices=next;
+  }catch(e){
+    prices=null;
+    const pEl=document.getElementById("marsPrice");
+    const tEl=document.getElementById("totalValue");
+    if(pEl) pEl.textContent="Unavailable";
+    if(tEl) tEl.textContent="Unavailable";
+    return;
+  }
+  updateTotal();
+}
 function copyAddress(){navigator.clipboard.writeText(ADDRESS).then(()=>{const b=document.getElementById("copyButton");b.innerText="Address Copied";setTimeout(()=>b.innerText="Copy Address",1800)})}
 async function refreshAll(){await Promise.all([loadBalance(),loadPrice()]);}
 refreshAll();setInterval(refreshAll,60000);
