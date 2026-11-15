@@ -325,7 +325,7 @@ select option{background:#120b09;color:#f3e6df}
   const $ = s => document.getElementById(s);
   const fmt = (n, d) => Number(n).toLocaleString('en-US', {minimumFractionDigits:d, maximumFractionDigits:d});
   let circ = null;
-  async function j(u){ const r = await fetch(u, {cache:'no-cache'}); if (!r.ok) throw new Error(r.status); return r.json(); }
+  async function j(u){ const r = await fetch(u); if (!r.ok) throw new Error(r.status); return r.json(); }
   async function load(){
     try { const d = await j(API + '/data/data.json'); circ = d.circ; } catch(e) {}
     try {
